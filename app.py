@@ -2,12 +2,12 @@ import os
 import nltk
 import streamlit as st
 import pandas as pd
-from datetime import time
 from utils import prepare_input_data, preprocess_text
 import joblib
+from datetime import datetime, date, time
 
 # Verificar si existe el directorio nltk_data en la raíz del proyecto
-data_dir = os.path.join(os.getcwd(), 'nltk_data')
+data_dir = os.path.join(os.getcwd(), 'venv/nltk_data')
 
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
@@ -24,18 +24,22 @@ st.title('Predicción de Tiempo de Respuesta de Bomberos')
 st.write('Por favor, ingresa los siguientes datos para predecir el tiempo de respuesta:')
 
 # Cargar el modelo
-model = joblib.load('gradient_boosting_model.joblib')
+model = joblib.load('models/gradient_boosting_model.joblib')
+# Obtener la fecha y hora actuales
+fecha_actual = date.today()
+hora_actual = datetime.now().time()
 
 # Formulario para ingresar datos
 with st.form("prediccion_form"):
-    fecha = st.date_input("Fecha del incidente")
-    hora_inicio = st.time_input("Hora de inicio", value=time(12, 0))
+    # Establecer la fecha y hora actuales como valores predeterminados
+    fecha = st.date_input("Fecha del incidente", value=fecha_actual)
+    hora_inicio = st.time_input("Hora de inicio", value=hora_actual)
     
     opciones_resumen = [
-        "Incendio estructural",
-        "Incendio vehicular",
-        "Rescate",
-        "Emergencia médica",
+        "Incendio en una casa",
+        "Colision de 2 vehiculos",
+        "Mascota atrapada",
+        "Olor a gas",
         "Derrame de materiales peligrosos",
         "Otro"
     ]

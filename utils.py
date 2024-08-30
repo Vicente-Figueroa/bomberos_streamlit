@@ -14,11 +14,11 @@ def time_to_decimal(t):
     return t.hour + t.minute / 60 + t.second / 3600
 
 # Cargar el scaler
-with open('scaler.pkl', 'rb') as f:
+with open('vectorizers/scaler.pkl', 'rb') as f:
     loaded_scaler = pickle.load(f)
 
 # Cargar el vectorizador TF-IDF
-tfidf_vectorizer = joblib.load('tfidf_vectorizer.joblib')
+tfidf_vectorizer = joblib.load('vectorizers/tfidf_vectorizer.joblib')
 
 # Configurar stemmer y stopwords
 stemmer = SnowballStemmer('spanish')
@@ -78,7 +78,7 @@ def prepare_input_data(fecha, hora_inicio, resumen, direccion):
     final_features = pd.DataFrame(combined_features.toarray(), columns=feature_names)
     
     # Asegurarse de que todas las características del modelo estén presentes
-    model_features = joblib.load('model_features.joblib')  # Cargar las características del modelo
+    model_features = joblib.load('models/model_features.joblib')  # Cargar las características del modelo
     for feature in model_features:
         if feature not in final_features.columns:
             final_features[feature] = 0
