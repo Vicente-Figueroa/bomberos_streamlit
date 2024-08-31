@@ -9,15 +9,14 @@ from nltk.stem import SnowballStemmer
 import re
 from nltk.corpus import stopwords
 
+
+# Función para convertir tiempo a decimal (asumida)
 def time_to_decimal(t):
     """Convierte un objeto time a un valor decimal."""
     return t.hour + t.minute / 60 + t.second / 3600
 
-# Cargar el scaler
-with open('vectorizers/scaler.pkl', 'rb') as f:
-    loaded_scaler = pickle.load(f)
-
-# Cargar el vectorizador TF-IDF
+# Cargar el scaler y el vectorizador
+loaded_scaler_inputs = joblib.load('vectorizers/scaler_inputs.pkl')
 tfidf_vectorizer = joblib.load('vectorizers/tfidf_vectorizer.joblib')
 
 # Configurar stemmer y stopwords
@@ -43,8 +42,13 @@ def preprocess_data(df):
     df_processed['MES'] = df_processed['FECHA'].dt.month
     df_processed['DIA_MES'] = df_processed['FECHA'].dt.day
     
+    # Escalar las columnas numéricas
     numeric_columns = ['HORA_INICIO_NUMERIC', 'DIA_SEMANA', 'MES', 'DIA_MES']
-    df_processed[numeric_columns] = loaded_scaler.transform(df_processed[numeric_columns])
+    df_processed[numeric_columns] = loaded_scaler_inputs.transform(df_processed[numeric_columns])
+    
+    # Añadir columna DURACION_MINUTOS_LOG si es requerida por el modelo
+    if 'DURACION_MINUTOS_LOG' not in df_processed.columns:
+        df_processed['DURACION_MINUTOS_LOG'] = np.log1p(df_processed['DURACION_MINUTOS']) # o algún valor por defecto o cálculo
     
     return df_processed
 
@@ -55,7 +59,8 @@ def prepare_input_data(fecha, hora_inicio, resumen, direccion):
         'FECHA': [pd.to_datetime(fecha)],
         'HORA INICIO': [hora_inicio],
         'RESUMEN': [resumen],
-        'DIRECCION': [direccion]
+        'DIRECCION': [direccion],
+        'DURACION_MINUTOS': 0
     })
     
     processed_input = preprocess_data(input_data)
