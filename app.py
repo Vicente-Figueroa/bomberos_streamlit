@@ -19,9 +19,10 @@ if not os.path.exists(data_dir):
 # Establecer NLTK_DATA para que NLTK busque en la carpeta de datos en la raíz
 #os.environ['NLTK_DATA'] = data_dir
 
-# Descargar los recursos necesarios
-nltk.download('punkt')
-nltk.download('stopwords')
+# Asegúrate de descargar el recurso 'punkt_tab'
+nltk.download('punkt_tab', download_dir=data_dir)
+nltk.download('punkt', download_dir=data_dir)
+nltk.download('stopwords', download_dir=data_dir)
 
 st.title('Predicción de Tiempo de Respuesta de Bomberos')
 
