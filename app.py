@@ -10,6 +10,9 @@ import google.generativeai as genai
 
 genai.configure(api_key='AIzaSyAtQwglcD0LvJdhKcbb2KCNjHhiSAepvqQ')
 model_ai = genai.GenerativeModel('gemini-1.5-flash')
+import os
+import nltk
+
 # Verificar si existe el directorio nltk_data en la raíz del proyecto
 data_dir = os.path.join(os.getcwd(), 'venv/nltk_data')
 
@@ -17,12 +20,28 @@ if not os.path.exists(data_dir):
     os.makedirs(data_dir)
 
 # Establecer NLTK_DATA para que NLTK busque en la carpeta de datos en la raíz
-#os.environ['NLTK_DATA'] = data_dir
+os.environ['NLTK_DATA'] = data_dir
 
-# Asegúrate de descargar el recurso 'punkt_tab'
-nltk.download('punkt_tab', download_dir=data_dir)
+# Descargar los recursos necesarios
 nltk.download('punkt', download_dir=data_dir)
 nltk.download('stopwords', download_dir=data_dir)
+
+# Verificar si el recurso 'punkt_tab' está disponible
+try:
+    nltk.download('punkt_tab', download_dir=data_dir)
+except LookupError:
+    print("El recurso 'punkt_tab' no está disponible en NLTK.")
+
+# Verificar la instalación de los recursos
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+text = "Este es un texto de ejemplo."
+tokens = word_tokenize(text)
+print("Tokens:", tokens)
+
+stop_words = set(stopwords.words('spanish'))
+print("Stopwords en español:", stop_words)
 
 st.title('Predicción de Tiempo de Respuesta de Bomberos')
 
