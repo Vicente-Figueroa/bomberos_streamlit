@@ -10,16 +10,16 @@ import google.generativeai as genai
 
 genai.configure(api_key='AIzaSyAtQwglcD0LvJdhKcbb2KCNjHhiSAepvqQ')
 model_ai = genai.GenerativeModel('gemini-1.5-flash')
-import os
-import nltk
 
-# Verificar si existe el directorio nltk_data en la raíz del proyecto
-data_dir = os.path.join(os.getcwd(), 'venv/nltk_data')
 
+# Especificar la ubicación de los datos de NLTK en Streamlit Cloud
+data_dir = '/home/appuser/nltk_data'
+
+# Verificar si existe el directorio nltk_data
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
 
-# Establecer NLTK_DATA para que NLTK busque en la carpeta de datos en la raíz
+# Establecer NLTK_DATA para que NLTK busque en la ubicación especificada
 os.environ['NLTK_DATA'] = data_dir
 
 # Descargar los recursos necesarios
