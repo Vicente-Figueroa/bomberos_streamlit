@@ -20,8 +20,8 @@ if not os.path.exists(data_dir):
 os.environ['NLTK_DATA'] = data_dir
 
 # Descargar los recursos necesarios
-nltk.download('punkt', download_dir=data_dir)
-nltk.download('stopwords', download_dir=data_dir)
+nltk.download('punkt')
+nltk.download('stopwords')
 
 st.title('Predicción de Tiempo de Respuesta de Bomberos')
 
