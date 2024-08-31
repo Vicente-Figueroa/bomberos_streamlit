@@ -17,7 +17,7 @@ if not os.path.exists(data_dir):
     os.makedirs(data_dir)
 
 # Establecer NLTK_DATA para que NLTK busque en la carpeta de datos en la raíz
-os.environ['NLTK_DATA'] = data_dir
+#os.environ['NLTK_DATA'] = data_dir
 
 # Descargar los recursos necesarios
 nltk.download('punkt')
