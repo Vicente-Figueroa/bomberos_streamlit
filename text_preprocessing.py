@@ -4,7 +4,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 import nltk
-
+nltk.download('stopwords')
 
 # Configurar stemmer y stopwords en español
 stemmer = SnowballStemmer('spanish')
